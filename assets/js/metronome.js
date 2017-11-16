@@ -21,6 +21,7 @@ var notesInQueue = [];      // the notes that have been put into the web audio,
                             // and may or may not have played yet. {note, time}
 var timerWorker = null;     // The Web Worker used to fire timer messages
 
+
 function maxBeats() {
   var beats = (meter * 12);
   return beats;
@@ -40,6 +41,13 @@ function calcVolume(beatVolume) {
   return (beatVolume * masterVolume);
 }
 
+function setFlasher(color) {
+    document.getElementById("flasher").style.backgroundColor=color;
+    setTimeout(function() { 
+        document.getElementById("flasher").style.backgroundColor='';
+    }, 100);
+}
+
 function scheduleNote(beatNumber, time) {
   // push the note on the queue, even if we're not playing.
   notesInQueue.push({ note: beatNumber, time: time });
@@ -52,6 +60,7 @@ function scheduleNote(beatNumber, time) {
   gainNode.connect(audioContext.destination);
 
   if (beatNumber % maxBeats() === 0) {
+    setFlasher("#FF3C7D");
     if (accentVolume > 0.25) {
       osc.frequency.value = 880.0;
       gainNode.gain.value = calcVolume(accentVolume);
@@ -60,6 +69,7 @@ function scheduleNote(beatNumber, time) {
       gainNode.gain.value = calcVolume(quarterVolume);
     }
   } else if (beatNumber % 12 === 0) {   // quarter notes = medium pitch
+    setFlasher("#00CCCA");
     osc.frequency.value = 440.0;
     gainNode.gain.value = calcVolume(quarterVolume);
   } else if (beatNumber % 6 === 0) {
@@ -114,5 +124,26 @@ function init(){
 
   timerWorker.postMessage({"interval":lookahead});
 }
+
+document.onkeydown = function(e){
+    if (e.keyCode == 32) {//space
+        play();
+        return;
+    }
+    else if (e.keyCode == 74) { //j
+        var bpmInput = document.getElementById("bpmInput");
+        var bpmOutput = document.getElementById("bpmOutput");
+        bpmInput.stepDown();
+        bpmOutput.value = bpmInput.value;
+        tempo = bpmInput.value;
+    } else if (e.keyCode == 75) {//k
+        var bpmInput = document.getElementById("bpmInput");
+        var bpmOutput = document.getElementById("bpmOutput");
+        bpmInput.stepUp();
+        bpmOutput.value = bpmInput.value;
+        tempo = bpmInput.value;
+    }
+}
+
 
 window.addEventListener("load", init );

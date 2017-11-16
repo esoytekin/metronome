@@ -1,0 +1,27 @@
+{
+  "name": "metronome",
+  "version": "1.0.0",
+  "description": "![alt tag](assets/img/screenshot.png)",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -a localhost -p 8000 -c-1 .",
+    "postinstall": "electron-packager . 'Metronome' --icon './metronome.icns' --overwrite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scottwhudson/metronome.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scottwhudson/metronome/issues"
+  },
+  "homepage": "https://github.com/scottwhudson/metronome#readme",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  },
+  "devDependencies": {
+    "electron": "^1.7.9"
+  }
+}

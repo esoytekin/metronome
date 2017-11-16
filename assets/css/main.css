@@ -13,6 +13,25 @@ body {
   z-index: 999;
 }
 
+.header-image {
+    background-image: url(./metronome.png);
+    background-repeat: no-repeat;
+    height: 60px;
+    width: 100%;
+    background-size: contain;
+    padding-left: 50px;
+    line-height: 56px;
+    margin-top:33px;
+}
+#flasher {
+    height: 100%;
+    width: 70px;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+}
+
 @media all and (min-width: 1024px) {
   #add {
     top: 100px;
