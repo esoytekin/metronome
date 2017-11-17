@@ -48,6 +48,31 @@ function setFlasher(color) {
     }, 100);
 }
 
+function flashMax(){
+    document.getElementsByTagName('header')[0].style.backgroundColor="#222";
+    setTimeout(function() { 
+        document.getElementsByTagName('header')[0].style.backgroundColor="";
+    }, 100);
+    
+}
+
+//function flashMax(){
+    //document.getElementById('add').classList.remove('mdl-color--accent');
+    //document.getElementById('add').classList.add('mdl-color--accent-max');
+    //setTimeout(function() { 
+        //document.getElementById('add').classList.remove('mdl-color--accent-max');
+        //document.getElementById('add').classList.add('mdl-color--accent');
+    //}, 100);
+//}
+function flashQuarter(){
+    document.getElementById('add').classList.remove('mdl-color--accent');
+    document.getElementById('add').classList.add('mdl-color--accent-quarter');
+    setTimeout(function() { 
+        document.getElementById('add').classList.remove('mdl-color--accent-quarter');
+        document.getElementById('add').classList.add('mdl-color--accent');
+    }, 100);
+}
+
 function scheduleNote(beatNumber, time) {
   // push the note on the queue, even if we're not playing.
   notesInQueue.push({ note: beatNumber, time: time });
@@ -60,7 +85,8 @@ function scheduleNote(beatNumber, time) {
   gainNode.connect(audioContext.destination);
 
   if (beatNumber % maxBeats() === 0) {
-    setFlasher("#FF3C7D");
+    //setFlasher("#FF3C7D");
+    flashMax();
     if (accentVolume > 0.25) {
       osc.frequency.value = 880.0;
       gainNode.gain.value = calcVolume(accentVolume);
@@ -69,7 +95,8 @@ function scheduleNote(beatNumber, time) {
       gainNode.gain.value = calcVolume(quarterVolume);
     }
   } else if (beatNumber % 12 === 0) {   // quarter notes = medium pitch
-    setFlasher("#00CCCA");
+    //setFlasher("#00CCCA");
+    flashQuarter();
     osc.frequency.value = 440.0;
     gainNode.gain.value = calcVolume(quarterVolume);
   } else if (beatNumber % 6 === 0) {
@@ -125,12 +152,15 @@ function init(){
   timerWorker.postMessage({"interval":lookahead});
 }
 
-document.onkeydown = function(e){
+document.onkeypress = function(e) {
     if (e.keyCode == 32) {//space
         play();
         return;
     }
-    else if (e.keyCode == 74) { //j
+}
+
+document.onkeydown = function(e){
+    if (e.keyCode == 74) { //j
         var bpmInput = document.getElementById("bpmInput");
         var bpmOutput = document.getElementById("bpmOutput");
         bpmInput.stepDown();
