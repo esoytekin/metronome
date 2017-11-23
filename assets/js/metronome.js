@@ -81,6 +81,7 @@ function scheduleNote(beatNumber, time) {
   var osc = audioContext.createOscillator();
   var gainNode = audioContext.createGain();
 
+
   osc.connect(gainNode);
   gainNode.connect(audioContext.destination);
 
@@ -153,27 +154,31 @@ function init(){
 }
 
 document.onkeypress = function(e) {
-    if (e.keyCode == 32) {//space
+    if (e.keyCode === 32) {//space
+        e.preventDefault();
         play();
-        return;
     }
-}
+};
 
 document.onkeydown = function(e){
-    if (e.keyCode == 74) { //j
-        var bpmInput = document.getElementById("bpmInput");
-        var bpmOutput = document.getElementById("bpmOutput");
+    var bpmInput;
+    var bpmOutput;
+    if (e.keyCode === 74) { //j
+        e.preventDefault();
+        bpmInput = document.getElementById("bpmInput");
+        bpmOutput = document.getElementById("bpmOutput");
         bpmInput.stepDown();
         bpmOutput.value = bpmInput.value;
         tempo = bpmInput.value;
-    } else if (e.keyCode == 75) {//k
-        var bpmInput = document.getElementById("bpmInput");
-        var bpmOutput = document.getElementById("bpmOutput");
+    } else if (e.keyCode === 75) {//k
+        e.preventDefault();
+        bpmInput = document.getElementById("bpmInput");
+        bpmOutput = document.getElementById("bpmOutput");
         bpmInput.stepUp();
         bpmOutput.value = bpmInput.value;
         tempo = bpmInput.value;
     }
-}
+};
 
 
 window.addEventListener("load", init );
